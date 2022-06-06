@@ -87,7 +87,7 @@ func findAllSplits(districts []District, depth int) [][]District {
 			allSubSplits := findAllSplits(split.districts, depth+1)
 
 			for iSubSplit := 0; iSubSplit < len(allSubSplits); iSubSplit++ {
-				newDistricts := make([]District, 0)
+				newDistricts := make([]District, 0, len(otherDistricts) + len(allSubSplits[iSubSplit]))
 
 				// add all other districts
 				newDistricts = append(newDistricts, otherDistricts...)
