@@ -158,8 +158,9 @@ func districtsSize(districts []District) int {
 
 func computeDistrictsScore(districts []District, votersByDimension [][]int) int {
 	score := 0
-	for _, district := range districts {
-		voters := getVotersByDimension(votersByDimension, district.width, district.height)
+
+	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
+		voters := getVotersByDimension(votersByDimension, districts[iDistrict].width, districts[iDistrict].height)
 		// debug("voters:", voters, "for district:", district)
 		score += voters
 	}
