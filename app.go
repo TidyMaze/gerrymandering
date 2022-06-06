@@ -70,6 +70,8 @@ func findMaxSplitScore(districts []District, depth int, votersByDimension [][]in
 
 	maxScore := computeDistrictsScore(districts, votersByDimension)
 
+	splits := make([]Split, 0)
+
 	// for each district, try to split it, for each possible split, store the resulting districts in results
 	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
 		// all but the iDistrict
@@ -82,7 +84,7 @@ func findMaxSplitScore(districts []District, depth int, votersByDimension [][]in
 
 		othersScore := computeDistrictsScore(otherDistricts, votersByDimension)
 
-		splits := getAllWaysToSplit(districts[iDistrict].width, districts[iDistrict].height)
+		getAllWaysToSplit(districts[iDistrict].width, districts[iDistrict].height, &splits)
 		for iSplit := 0; iSplit < len(splits); iSplit++ {
 			maxSubSplitsScore := findMaxSplitScore(splits[iSplit].districts, depth+1, votersByDimension)
 			splitScore := othersScore + maxSubSplitsScore
@@ -112,11 +114,10 @@ func makeDistrict(w int, h int) District {
 	}
 }
 
-func getAllWaysToSplit(w int, h int) []Split {
-	results := make([]Split, 0)
-
+func getAllWaysToSplit(w int, h int, splits *[]Split) {
+	*splits = (*splits)[:0]
 	if w == 1 && h == 1 {
-		return results
+		return
 	}
 
 	// debug("Splitting:", w, "x", h)
@@ -128,7 +129,7 @@ func getAllWaysToSplit(w int, h int) []Split {
 				makeDistrict(w, h-i-1),
 			},
 		}
-		results = append(results, newSplit)
+		*splits = append(*splits, newSplit)
 	}
 
 	for j := 0; j < w-1; j++ {
@@ -138,10 +139,8 @@ func getAllWaysToSplit(w int, h int) []Split {
 				makeDistrict(w-j-1, h),
 			},
 		}
-		results = append(results, newSplit)
+		*splits = append(*splits, newSplit)
 	}
-
-	return results
 }
 
 func districtSize(district District) int {
