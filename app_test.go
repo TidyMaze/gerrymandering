@@ -5,7 +5,7 @@ import "testing"
 func TestAllPossibleSplits(t *testing.T) {
 
 	width := 7
-	height := 6
+	height := 7
 
 	initialDistrict := makeDistrict(width, height)
 
