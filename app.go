@@ -66,7 +66,7 @@ func getVotersByDimension(votersByDimension map[int]map[int]int, w int, h int) i
 }
 
 func findAllSplits(districts []District, depth int) [][]District {
-	debug("depth:", depth, "districts length:", len(districts), "districts:", districts)
+	// debug("depth:", depth, "districts length:", len(districts), "districts:", districts)
 
 	results := make([][]District, 0)
 
@@ -126,7 +126,7 @@ func getAllWaysToSplit(w int, h int) []Split {
 		return results
 	}
 
-	debug("Splitting:", w, "x", h)
+	// debug("Splitting:", w, "x", h)
 
 	for i := 0; i < h-1; i++ {
 		newSplit := Split{
@@ -167,7 +167,7 @@ func computeDistrictsScore(districts []District, votersByDimension map[int]map[i
 	score := 0
 	for _, district := range districts {
 		voters := getVotersByDimension(votersByDimension, district.width, district.height)
-		debug("voters:", voters, "for district:", district)
+		// debug("voters:", voters, "for district:", district)
 		score += voters
 	}
 	return score
