@@ -123,23 +123,21 @@ func getAllWaysToSplit(w int, h int, splits *[]Split) {
 	// debug("Splitting:", w, "x", h)
 
 	for i := 0; i < h-1; i++ {
-		newSplit := Split{
+		*splits = append(*splits, Split{
 			districts: []District{
 				makeDistrict(w, i+1),
 				makeDistrict(w, h-i-1),
 			},
-		}
-		*splits = append(*splits, newSplit)
+		})
 	}
 
 	for j := 0; j < w-1; j++ {
-		newSplit := Split{
+		*splits = append(*splits, Split{
 			districts: []District{
 				makeDistrict(j+1, h),
 				makeDistrict(w-j-1, h),
 			},
-		}
-		*splits = append(*splits, newSplit)
+		})
 	}
 }
 
