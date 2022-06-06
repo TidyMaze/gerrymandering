@@ -4,7 +4,7 @@ import "testing"
 
 func TestAllPossibleSplits(t *testing.T) {
 
-	initialDistrict := makeDistrict(5, 4)
+	initialDistrict := makeDistrict(6, 6)
 	initialDistricts := []District{initialDistrict}
 	allPossibleSplits := findAllSplits(initialDistricts, 0)
 
