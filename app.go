@@ -65,13 +65,10 @@ func getVotersByDimension(votersByDimension map[int]map[int]int, w int, h int) i
 	return votersByDimension[h][w]
 }
 
-func findAllSplits(districts []District, depth int) [][]District {
+func findMaxSplitScore(districts []District, depth int, votersByDimension map[int]map[int]int) int {
 	// debug("depth:", depth, "districts length:", len(districts), "districts:", districts)
 
-	results := make([][]District, 0)
-
-	// add the original districts
-	results = append(results, districts)
+	maxScore := computeDistrictsScore(districts, votersByDimension)
 
 	// for each district, try to split it, for each possible split, store the resulting districts in results
 	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
@@ -84,24 +81,18 @@ func findAllSplits(districts []District, depth int) [][]District {
 		}
 
 		for _, split := range getAllWaysToSplit(districts[iDistrict].width, districts[iDistrict].height) {
-			allSubSplits := findAllSplits(split.districts, depth+1)
+			allSubSplits := findMaxSplitScore(split.districts, depth+1, votersByDimension)
 
-			for iSubSplit := 0; iSubSplit < len(allSubSplits); iSubSplit++ {
-				newDistricts := make([]District, 0, len(otherDistricts) + len(allSubSplits[iSubSplit]))
+			splitScore := computeDistrictsScore(otherDistricts, votersByDimension) + allSubSplits
 
-				// add all other districts
-				newDistricts = append(newDistricts, otherDistricts...)
-
-				// add the sub-split
-				newDistricts = append(newDistricts, allSubSplits[iSubSplit]...)
-
-				// add the newDistricts to results
-				results = append(results, newDistricts)
+			if splitScore > maxScore {
+				maxScore = splitScore
+				// debug("Found new max score:", maxScore, "for split:", split)
 			}
 		}
 	}
 
-	return results
+	return maxScore
 }
 
 func assert(condition bool) {
@@ -174,14 +165,5 @@ func computeDistrictsScore(districts []District, votersByDimension map[int]map[i
 }
 
 func findMaxDistrictScore(w int, h int, votersByDimension map[int]map[int]int) int {
-	maxScore := 0
-	for _, districts := range findAllSplits([]District{makeDistrict(w, h)}, 0) {
-		// debug("split:", districts)
-		score := computeDistrictsScore(districts, votersByDimension)
-		if score > maxScore {
-			maxScore = score
-			debug("Found new max score:", maxScore, "for districts:", districts)
-		}
-	}
-	return maxScore
+	return findMaxSplitScore([]District{makeDistrict(w, h)}, 0, votersByDimension)
 }
