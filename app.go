@@ -46,10 +46,10 @@ func main() {
 		for j := 0; j < w; j++ {
 			voters, _ := strconv.ParseInt(inputs[j], 10, 32)
 			_ = voters
-			if votersByDimension[i] == nil {
-				votersByDimension[i] = make(map[int]int)
+			if votersByDimension[i+1] == nil {
+				votersByDimension[i+1] = make(map[int]int)
 			}
-			votersByDimension[i][j] = int(voters)
+			votersByDimension[i+1][j+1] = int(voters)
 		}
 	}
 
@@ -166,7 +166,9 @@ func districtsSize(districts []District) int {
 func computeDistrictsScore(districts []District, votersByDimension map[int]map[int]int) int {
 	score := 0
 	for _, district := range districts {
-		score += getVotersByDimension(votersByDimension, district.width, district.height)
+		voters := getVotersByDimension(votersByDimension, district.width, district.height)
+		debug("voters:", voters, "for district:", district)
+		score += voters
 	}
 	return score
 }
