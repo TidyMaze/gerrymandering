@@ -72,10 +72,13 @@ func findMaxSplitScore(districts []District, depth int, votersByDimension [][]in
 
 	splits := make([]Split, 0)
 
+	otherDistricts := make([]District, 0, len(districts)-1)
+
 	// for each district, try to split it, for each possible split, store the resulting districts in results
 	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
 		// all but the iDistrict
-		otherDistricts := make([]District, 0, len(districts)-1)
+		otherDistricts = otherDistricts[:0]
+
 		for iOtherDistrict := 0; iOtherDistrict < len(districts); iOtherDistrict++ {
 			if iOtherDistrict != iDistrict {
 				otherDistricts = append(otherDistricts, districts[iOtherDistrict])
