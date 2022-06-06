@@ -80,10 +80,11 @@ func findMaxSplitScore(districts []District, depth int, votersByDimension map[in
 			}
 		}
 
+		othersScore := computeDistrictsScore(otherDistricts, votersByDimension)
+
 		for _, split := range getAllWaysToSplit(districts[iDistrict].width, districts[iDistrict].height) {
 			maxSubSplitsScore := findMaxSplitScore(split.districts, depth+1, votersByDimension)
-
-			splitScore := computeDistrictsScore(otherDistricts, votersByDimension) + maxSubSplitsScore
+			splitScore := othersScore + maxSubSplitsScore
 
 			if splitScore > maxScore {
 				maxScore = splitScore
