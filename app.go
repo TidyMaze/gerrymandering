@@ -53,7 +53,7 @@ func main() {
 		}
 	}
 
-	debug("votersByDimension:", votersByDimension)
+	// debug("votersByDimension:", votersByDimension)
 
 	max := findMaxDistrictScore(w, h, votersByDimension)
 
