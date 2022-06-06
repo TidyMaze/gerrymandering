@@ -7,12 +7,12 @@ func TestAllPossibleSplits(t *testing.T) {
 	width := 7
 	height := 6
 
-	initialDistrict := makeDistrict(7, 7)
+	initialDistrict := makeDistrict(width, height)
 
-	votersByDimension := make(map[int]map[int]int)
+	votersByDimension := make([][]int, height)
 
 	for i := 0; i < height; i++ {
-		votersByDimension[i] = make(map[int]int)
+		votersByDimension[i] = make([]int, width)
 		for j := 0; j < width; j++ {
 			votersByDimension[i][j] = 1
 		}

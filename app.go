@@ -38,7 +38,7 @@ func main() {
 	scanner.Scan()
 	fmt.Sscan(scanner.Text(), &w, &h)
 
-	votersByDimension := make(map[int]map[int]int)
+	votersByDimension := make([][]int, h)
 
 	for i := 0; i < h; i++ {
 		scanner.Scan()
@@ -46,10 +46,10 @@ func main() {
 		for j := 0; j < w; j++ {
 			voters, _ := strconv.ParseInt(inputs[j], 10, 32)
 			_ = voters
-			if votersByDimension[i+1] == nil {
-				votersByDimension[i+1] = make(map[int]int)
+			if votersByDimension[i] == nil {
+				votersByDimension[i] = make([]int, w)
 			}
-			votersByDimension[i+1][j+1] = int(voters)
+			votersByDimension[i][j] = int(voters)
 		}
 	}
 
@@ -61,11 +61,11 @@ func main() {
 	fmt.Println(max) // Write answer to stdout
 }
 
-func getVotersByDimension(votersByDimension map[int]map[int]int, w int, h int) int {
-	return votersByDimension[h][w]
+func getVotersByDimension(votersByDimension [][]int, w int, h int) int {
+	return votersByDimension[h-1][w-1]
 }
 
-func findMaxSplitScore(districts []District, depth int, votersByDimension map[int]map[int]int) int {
+func findMaxSplitScore(districts []District, depth int, votersByDimension [][]int) int {
 	// debug("depth:", depth, "districts length:", len(districts), "districts:", districts)
 
 	maxScore := computeDistrictsScore(districts, votersByDimension)
@@ -155,7 +155,7 @@ func districtsSize(districts []District) int {
 	return size
 }
 
-func computeDistrictsScore(districts []District, votersByDimension map[int]map[int]int) int {
+func computeDistrictsScore(districts []District, votersByDimension [][]int) int {
 	score := 0
 	for _, district := range districts {
 		voters := getVotersByDimension(votersByDimension, district.width, district.height)
@@ -165,6 +165,6 @@ func computeDistrictsScore(districts []District, votersByDimension map[int]map[i
 	return score
 }
 
-func findMaxDistrictScore(w int, h int, votersByDimension map[int]map[int]int) int {
+func findMaxDistrictScore(w int, h int, votersByDimension [][]int) int {
 	return findMaxSplitScore([]District{makeDistrict(w, h)}, 0, votersByDimension)
 }
