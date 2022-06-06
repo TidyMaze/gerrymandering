@@ -122,6 +122,10 @@ func makeDistrict(w int, h int) District {
 func getAllWaysToSplit(w int, h int) []Split {
 	results := make([]Split, 0)
 
+	if w == 1 && h == 1 {
+		return results
+	}
+
 	debug("Splitting:", w, "x", h)
 
 	for i := 0; i < h-1; i++ {
