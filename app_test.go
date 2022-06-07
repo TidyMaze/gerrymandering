@@ -18,8 +18,7 @@ func TestAllPossibleSplits(t *testing.T) {
 		}
 	}
 
-	initialDistricts := []District{initialDistrict}
-	best := findMaxSplitScore(initialDistricts, 0, votersByDimension)
+	best := findMaxSplitScore(initialDistrict, 0, votersByDimension)
 
 	debug("best:", best)
 }

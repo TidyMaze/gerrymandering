@@ -58,37 +58,19 @@ func getVotersByDimension(votersByDimension [][]int, w int, h int) int {
 	return votersByDimension[h-1][w-1]
 }
 
-func findMaxSplitScore(districts []District, depth int, votersByDimension [][]int) int {
-	// debug("depth:", depth, "districts length:", len(districts), "districts:", districts)
-
-	maxScore := computeDistrictsScore(districts, votersByDimension)
-
+func findMaxSplitScore(district District, depth int, votersByDimension [][]int) int {
+	debug("depth:", depth, "districts:", district)
+	maxScore := computeDistrictsScore([]District{district}, votersByDimension)
 	splits := make([]Split, 0)
+	getAllWaysToSplit(district.width, district.height, &splits)
+	for iSplit := 0; iSplit < len(splits); iSplit++ {
+		firstDistrictMaxScore := findMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension)
+		secondDistrictMaxScore := findMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension)
+		splitScore := firstDistrictMaxScore + secondDistrictMaxScore
 
-	otherDistricts := make([]District, 0, len(districts)-1)
-
-	// for each district, try to split it, for each possible split, store the resulting districts in results
-	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
-		// all but the iDistrict
-		otherDistricts = otherDistricts[:0]
-
-		for iOtherDistrict := 0; iOtherDistrict < len(districts); iOtherDistrict++ {
-			if iOtherDistrict != iDistrict {
-				otherDistricts = append(otherDistricts, districts[iOtherDistrict])
-			}
-		}
-
-		othersScore := computeDistrictsScore(otherDistricts, votersByDimension)
-
-		getAllWaysToSplit(districts[iDistrict].width, districts[iDistrict].height, &splits)
-		for iSplit := 0; iSplit < len(splits); iSplit++ {
-			maxSubSplitsScore := findMaxSplitScore(splits[iSplit].districts, depth+1, votersByDimension)
-			splitScore := othersScore + maxSubSplitsScore
-
-			if splitScore > maxScore {
-				maxScore = splitScore
-				// debug("Found new max score:", maxScore, "for split:", split)
-			}
+		if splitScore > maxScore {
+			maxScore = splitScore
+			debug("Found new max score:", maxScore, "for split:", splits[iSplit])
 		}
 	}
 
@@ -161,5 +143,5 @@ func computeDistrictsScore(districts []District, votersByDimension [][]int) int 
 }
 
 func findMaxDistrictScore(w int, h int, votersByDimension [][]int) int {
-	return findMaxSplitScore([]District{makeDistrict(w, h)}, 0, votersByDimension)
+	return findMaxSplitScore(makeDistrict(w, h), 0, votersByDimension)
 }
