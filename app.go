@@ -59,13 +59,12 @@ func memoizedFindMaxSplitScore(district District, depth int, votersByDimension [
 	splits := make([]Split, 0)
 	getAllWaysToSplit(district.width, district.height, &splits)
 	for iSplit := 0; iSplit < len(splits); iSplit++ {
-		firstDistrictMaxScore := memoizedFindMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension, memo)
-		secondDistrictMaxScore := memoizedFindMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension, memo)
-		splitScore := firstDistrictMaxScore + secondDistrictMaxScore
+		fstScore := memoizedFindMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension, memo)
+		sndScore := memoizedFindMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension, memo)
+		splitScore := fstScore + sndScore
 
 		if splitScore > maxScore {
 			maxScore = splitScore
-			// debug("Found new max score:", maxScore, "for split:", splits[iSplit])
 		}
 	}
 
