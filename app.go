@@ -73,9 +73,6 @@ func max(a, b int) int {
 
 func getAllSplits(w int, h int) []Split {
 	splits := make([]Split, 0)
-	if w == 1 && h == 1 {
-		return splits
-	}
 
 	for i := 0; i < h-1; i++ {
 		splits = append(splits, Split{
