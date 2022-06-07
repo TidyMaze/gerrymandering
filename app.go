@@ -65,7 +65,6 @@ func search(district District, votersByDimension [][]int, memo map[District]int)
 		}
 	}
 
-	// debug("memoizedFindMaxSplitScore:", district, maxScore)
 	memo[district] = maxScore
 	return maxScore
 }
