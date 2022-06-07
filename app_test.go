@@ -16,7 +16,7 @@ func oneMeasure() {
 	width := 50
 	height := 50
 
-	initialDistrict := makeDistrict(width, height)
+	initialDistrict := District{width, height}
 
 	votersByDimension := make([][]int, height)
 

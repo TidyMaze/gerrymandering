@@ -45,7 +45,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(search(makeDistrict(w, h), votersByDimension, make(map[District]int)))
+	fmt.Println(search(District{w, h}, votersByDimension, make(map[District]int)))
 }
 
 func search(district District, votersByDimension [][]int, memo map[District]int) int {
@@ -69,13 +69,6 @@ func search(district District, votersByDimension [][]int, memo map[District]int)
 	return maxScore
 }
 
-func makeDistrict(w int, h int) District {
-	return District{
-		width:  w,
-		height: h,
-	}
-}
-
 func getAllWaysToSplit(w int, h int) []Split {
 	splits := make([]Split, 0)
 	if w == 1 && h == 1 {
@@ -84,15 +77,15 @@ func getAllWaysToSplit(w int, h int) []Split {
 
 	for i := 0; i < h-1; i++ {
 		splits = append(splits, Split{
-			firstDistrict:  makeDistrict(w, i+1),
-			secondDistrict: makeDistrict(w, h-i-1),
+			firstDistrict:  District{w, i + 1},
+			secondDistrict: District{w, h - i - 1},
 		})
 	}
 
 	for j := 0; j < w-1; j++ {
 		splits = append(splits, Split{
-			firstDistrict:  makeDistrict(j+1, h),
-			secondDistrict: makeDistrict(w-j-1, h),
+			firstDistrict:  District{j + 1, h},
+			secondDistrict: District{w - j - 1, h},
 		})
 	}
 
