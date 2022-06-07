@@ -117,8 +117,8 @@ func getAllWaysToSplit(w int, h int, splits *[]Split) {
 
 func computeDistrictsScore(districts []District, votersByDimension [][]int) int {
 	score := 0
-	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
-		score += votersByDimension[districts[iDistrict].height-1][districts[iDistrict].width-1]
+	for i := 0; i < len(districts); i++ {
+		score += votersByDimension[districts[i].height-1][districts[i].width-1]
 	}
 	return score
 }
