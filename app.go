@@ -31,21 +31,21 @@ func main() {
 	scanner.Scan()
 	fmt.Sscan(scanner.Text(), &w, &h)
 
-	votersByDimension := make([][]int, h)
+	voters := make([][]int, h)
 
 	for i := 0; i < h; i++ {
 		scanner.Scan()
 		inputs = strings.Split(scanner.Text(), " ")
 		for j := 0; j < w; j++ {
-			voters, _ := strconv.ParseInt(inputs[j], 10, 32)
-			if votersByDimension[i] == nil {
-				votersByDimension[i] = make([]int, w)
+			cost, _ := strconv.ParseInt(inputs[j], 10, 32)
+			if voters[i] == nil {
+				voters[i] = make([]int, w)
 			}
-			votersByDimension[i][j] = int(voters)
+			voters[i][j] = int(cost)
 		}
 	}
 
-	fmt.Println(search(District{w, h}, votersByDimension, make(map[District]int)))
+	fmt.Println(search(District{w, h}, voters, make(map[District]int)))
 }
 
 func search(district District, voters [][]int, memo map[District]int) int {
