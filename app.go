@@ -13,11 +13,6 @@ type District struct {
 	height int
 }
 
-type Split struct {
-	first  District
-	second District
-}
-
 func debug(values ...interface{}) {
 	fmt.Fprintln(os.Stderr, values...)
 }
@@ -55,32 +50,34 @@ func searchMemo(district District, voters [][]int, memo map[District]int) int {
 	}
 	maxScore := voters[district.height-1][district.width-1]
 	for _, split := range getAllSplits(district.width, district.height) {
-		first := searchMemo(split.first, voters, memo)
-		snd := searchMemo(split.second, voters, memo)
-		if first+snd > maxScore {
-			maxScore = first + snd
+		sum := 0
+		for _, district := range split {
+			sum += searchMemo(district, voters, memo)
+		}
+		if sum > maxScore {
+			maxScore = sum
 		}
 	}
 	memo[district] = maxScore
 	return maxScore
 }
 
-func getAllSplits(w int, h int) []Split {
-	splits := make([]Split, 0)
+func getAllSplits(w int, h int) [][2]District {
+	splits := make([][2]District, 0)
 
 	// split horizontally
 	for i := 0; i < h-1; i++ {
-		splits = append(splits, Split{
-			first:  District{w, i + 1},
-			second: District{w, h - i - 1},
+		splits = append(splits, [2]District{
+			District{w, i + 1},
+			District{w, h - i - 1},
 		})
 	}
 
 	// split vertically
 	for j := 0; j < w-1; j++ {
-		splits = append(splits, Split{
-			first:  District{j + 1, h},
-			second: District{w - j - 1, h},
+		splits = append(splits, [2]District{
+			District{j + 1, h},
+			District{w - j - 1, h},
 		})
 	}
 
