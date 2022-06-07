@@ -38,7 +38,6 @@ func main() {
 		inputs = strings.Split(scanner.Text(), " ")
 		for j := 0; j < w; j++ {
 			voters, _ := strconv.ParseInt(inputs[j], 10, 32)
-			_ = voters
 			if votersByDimension[i] == nil {
 				votersByDimension[i] = make([]int, w)
 			}
