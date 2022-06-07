@@ -94,8 +94,6 @@ func getAllWaysToSplit(w int, h int, splits *[]Split) {
 		return
 	}
 
-	// debug("Splitting:", w, "x", h)
-
 	for i := 0; i < h-1; i++ {
 		*splits = append(*splits, Split{
 			districts: []District{
