@@ -115,18 +115,6 @@ func getAllWaysToSplit(w int, h int, splits *[]Split) {
 	}
 }
 
-func districtSize(district District) int {
-	return district.width * district.height
-}
-
-func districtsSize(districts []District) int {
-	size := 0
-	for _, district := range districts {
-		size += districtSize(district)
-	}
-	return size
-}
-
 func computeDistrictsScore(districts []District, votersByDimension [][]int) int {
 	score := 0
 	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
