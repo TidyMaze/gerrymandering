@@ -48,6 +48,7 @@ func main() {
 	fmt.Println(search(District{w, h}, voters))
 }
 
+// find the maximum score after splitting a district
 func search(district District, voters [][]int) int {
 	return searchMemo(district, voters, make(map[District]int))
 }
