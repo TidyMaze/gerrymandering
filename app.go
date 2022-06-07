@@ -59,7 +59,7 @@ func getVotersByDimension(votersByDimension [][]int, w int, h int) int {
 }
 
 func findMaxSplitScore(district District, depth int, votersByDimension [][]int) int {
-	debug("depth:", depth, "districts:", district)
+	// debug("depth:", depth, "districts:", district)
 	maxScore := computeDistrictsScore([]District{district}, votersByDimension)
 	splits := make([]Split, 0)
 	getAllWaysToSplit(district.width, district.height, &splits)
@@ -70,7 +70,7 @@ func findMaxSplitScore(district District, depth int, votersByDimension [][]int) 
 
 		if splitScore > maxScore {
 			maxScore = splitScore
-			debug("Found new max score:", maxScore, "for split:", splits[iSplit])
+			// debug("Found new max score:", maxScore, "for split:", splits[iSplit])
 		}
 	}
 
