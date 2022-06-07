@@ -3,7 +3,16 @@ package main
 import "testing"
 
 func TestAllPossibleSplits(t *testing.T) {
+	oneMeasure()
+}
 
+func BenchmarkOneMeasure(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		oneMeasure()
+	}
+}
+
+func oneMeasure() {
 	width := 300
 	height := 300
 
