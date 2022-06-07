@@ -18,7 +18,6 @@ type Split struct {
 	secondDistrict District
 }
 
-// debug any value to stderr
 func debug(values ...interface{}) {
 	fmt.Fprintln(os.Stderr, values...)
 }
@@ -52,7 +51,6 @@ func main() {
 
 func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, memo map[District]int) int {
 	if memo[district] != 0 {
-		debug("memoizedFindMaxSplitScore:", district, "=", memo[district])
 		return memo[district]
 	}
 
@@ -69,6 +67,7 @@ func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, mem
 		}
 	}
 
+	debug("memoizedFindMaxSplitScore:", district, maxScore)
 	memo[district] = maxScore
 	return maxScore
 }
