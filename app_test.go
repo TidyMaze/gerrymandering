@@ -4,8 +4,8 @@ import "testing"
 
 func TestAllPossibleSplits(t *testing.T) {
 
-	width := 70
-	height := 70
+	width := 300
+	height := 300
 
 	initialDistrict := makeDistrict(width, height)
 
