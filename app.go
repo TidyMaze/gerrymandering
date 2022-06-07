@@ -8,13 +8,6 @@ import (
 	"strings"
 )
 
-// type SplitDirection int
-
-// const (
-// 	Horizontal SplitDirection = iota
-// 	Vertical
-// )
-
 type District struct {
 	width  int
 	height int
