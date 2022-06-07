@@ -14,8 +14,8 @@ type District struct {
 }
 
 type Split struct {
-	firstDistrict  District
-	secondDistrict District
+	first  District
+	second District
 }
 
 func debug(values ...interface{}) {
@@ -48,15 +48,15 @@ func main() {
 	fmt.Println(search(District{w, h}, votersByDimension, make(map[District]int)))
 }
 
-func search(district District, votersByDimension [][]int, memo map[District]int) int {
+func search(district District, voters [][]int, memo map[District]int) int {
 	if memo[district] != 0 {
 		return memo[district]
 	}
 
-	maxScore := votersByDimension[district.height-1][district.width-1]
+	maxScore := voters[district.height-1][district.width-1]
 	for _, s := range getAllWaysToSplit(district.width, district.height) {
-		first := search(s.firstDistrict, votersByDimension, memo)
-		snd := search(s.secondDistrict, votersByDimension, memo)
+		first := search(s.first, voters, memo)
+		snd := search(s.second, voters, memo)
 		maxScore = max(maxScore, first+snd)
 	}
 
@@ -79,15 +79,15 @@ func getAllWaysToSplit(w int, h int) []Split {
 
 	for i := 0; i < h-1; i++ {
 		splits = append(splits, Split{
-			firstDistrict:  District{w, i + 1},
-			secondDistrict: District{w, h - i - 1},
+			first:  District{w, i + 1},
+			second: District{w, h - i - 1},
 		})
 	}
 
 	for j := 0; j < w-1; j++ {
 		splits = append(splits, Split{
-			firstDistrict:  District{j + 1, h},
-			secondDistrict: District{w - j - 1, h},
+			first:  District{j + 1, h},
+			second: District{w - j - 1, h},
 		})
 	}
 
