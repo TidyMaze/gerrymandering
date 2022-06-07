@@ -70,15 +70,7 @@ func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, mem
 	return maxScore
 }
 
-func assert(condition bool) {
-	if !condition {
-		panic("assertion failed")
-	}
-}
-
 func makeDistrict(w int, h int) District {
-	assert(w > 0 && h > 0)
-
 	return District{
 		width:  w,
 		height: h,
