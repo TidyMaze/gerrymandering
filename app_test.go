@@ -28,5 +28,5 @@ func oneMeasure() {
 	}
 
 	cache := make(map[District]int)
-	search(initialDistrict, votersByDimension, cache)
+	searchMemo(initialDistrict, votersByDimension, cache)
 }

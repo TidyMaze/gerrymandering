@@ -45,18 +45,22 @@ func main() {
 		}
 	}
 
-	fmt.Println(search(District{w, h}, voters, make(map[District]int)))
+	fmt.Println(search(District{w, h}, voters))
 }
 
-func search(district District, voters [][]int, memo map[District]int) int {
+func search(district District, voters [][]int) int {
+	return searchMemo(district, voters, make(map[District]int))
+}
+
+func searchMemo(district District, voters [][]int, memo map[District]int) int {
 	if memo[district] != 0 {
 		return memo[district]
 	}
 
 	maxScore := voters[district.height-1][district.width-1]
 	for _, s := range getAllSplits(district.width, district.height) {
-		first := search(s.first, voters, memo)
-		snd := search(s.second, voters, memo)
+		first := searchMemo(s.first, voters, memo)
+		snd := searchMemo(s.second, voters, memo)
 		maxScore = max(maxScore, first+snd)
 	}
 
