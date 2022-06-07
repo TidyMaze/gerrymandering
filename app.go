@@ -77,6 +77,30 @@ func findMaxSplitScore(district District, depth int, votersByDimension [][]int) 
 	return maxScore
 }
 
+func memoizedFindMaxSplitScore(district District, depth int, votersByDimension [][]int, memo map[District]int) int {
+	if memo[district] != 0 {
+		debug("memoizedFindMaxSplitScore:", district, "=", memo[district])
+		return memo[district]
+	}
+
+	maxScore := computeDistrictsScore([]District{district}, votersByDimension)
+	splits := make([]Split, 0)
+	getAllWaysToSplit(district.width, district.height, &splits)
+	for iSplit := 0; iSplit < len(splits); iSplit++ {
+		firstDistrictMaxScore := memoizedFindMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension, memo)
+		secondDistrictMaxScore := memoizedFindMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension, memo)
+		splitScore := firstDistrictMaxScore + secondDistrictMaxScore
+
+		if splitScore > maxScore {
+			maxScore = splitScore
+			// debug("Found new max score:", maxScore, "for split:", splits[iSplit])
+		}
+	}
+
+	memo[district] = maxScore
+	return maxScore
+}
+
 func assert(condition bool) {
 	if !condition {
 		panic("assertion failed")
@@ -143,5 +167,6 @@ func computeDistrictsScore(districts []District, votersByDimension [][]int) int 
 }
 
 func findMaxDistrictScore(w int, h int, votersByDimension [][]int) int {
-	return findMaxSplitScore(makeDistrict(w, h), 0, votersByDimension)
+	cache := make(map[District]int)
+	return memoizedFindMaxSplitScore(makeDistrict(w, h), 0, votersByDimension, cache)
 }

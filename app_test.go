@@ -4,8 +4,8 @@ import "testing"
 
 func TestAllPossibleSplits(t *testing.T) {
 
-	width := 7
-	height := 8
+	width := 50
+	height := 50
 
 	initialDistrict := makeDistrict(width, height)
 
@@ -18,7 +18,8 @@ func TestAllPossibleSplits(t *testing.T) {
 		}
 	}
 
-	best := findMaxSplitScore(initialDistrict, 0, votersByDimension)
+	cache := make(map[District]int)
+	best := memoizedFindMaxSplitScore(initialDistrict, 0, votersByDimension, cache)
 
 	debug("best:", best)
 }
