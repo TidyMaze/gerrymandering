@@ -54,9 +54,9 @@ func searchMemo(district District, voters [][]int, memo map[District]int) int {
 		return memo[district]
 	}
 	maxScore := voters[district.height-1][district.width-1]
-	for _, s := range getAllSplits(district.width, district.height) {
-		first := searchMemo(s.first, voters, memo)
-		snd := searchMemo(s.second, voters, memo)
+	for _, split := range getAllSplits(district.width, district.height) {
+		first := searchMemo(split.first, voters, memo)
+		snd := searchMemo(split.second, voters, memo)
 		if first+snd > maxScore {
 			maxScore = first + snd
 		}

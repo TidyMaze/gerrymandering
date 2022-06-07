@@ -27,5 +27,5 @@ func oneMeasure() {
 		}
 	}
 
-	search(initialDistrict, votersByDimension)
+	searchMemo(initialDistrict, votersByDimension, make(map[District]int))
 }
