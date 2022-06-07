@@ -13,10 +13,6 @@ type District struct {
 	height int
 }
 
-func debug(values ...interface{}) {
-	fmt.Fprintln(os.Stderr, values...)
-}
-
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Buffer(make([]byte, 1000000), 1000000)
@@ -66,16 +62,16 @@ func getAllSplits(w int, h int) [][2]District {
 	// split horizontally
 	for i := 0; i < h-1; i++ {
 		splits = append(splits, [2]District{
-			District{w, i + 1},
-			District{w, h - i - 1},
+			{w, i + 1},
+			{w, h - i - 1},
 		})
 	}
 
 	// split vertically
 	for j := 0; j < w-1; j++ {
 		splits = append(splits, [2]District{
-			District{j + 1, h},
-			District{w - j - 1, h},
+			{j + 1, h},
+			{w - j - 1, h},
 		})
 	}
 
