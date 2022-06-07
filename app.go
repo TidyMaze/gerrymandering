@@ -58,10 +58,10 @@ func search(district District, votersByDimension [][]int, memo map[District]int)
 	for iSplit := 0; iSplit < len(splits); iSplit++ {
 		fstScore := search(splits[iSplit].firstDistrict, votersByDimension, memo)
 		sndScore := search(splits[iSplit].secondDistrict, votersByDimension, memo)
-		splitScore := fstScore + sndScore
+		score := fstScore + sndScore
 
-		if splitScore > maxScore {
-			maxScore = splitScore
+		if score > maxScore {
+			maxScore = score
 		}
 	}
 
