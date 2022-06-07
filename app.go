@@ -59,17 +59,23 @@ func searchMemo(district District, voters [][]int, memo map[District]int) int {
 		return memo[district]
 	}
 
+	// best score is not splitting at all first
 	maxScore := voters[district.height-1][district.width-1]
+
+	// find best possible score for each sub district
+	// and keep split if score is higher than current best
 	for _, s := range getAllSplits(district.width, district.height) {
 		first := searchMemo(s.first, voters, memo)
 		snd := searchMemo(s.second, voters, memo)
 		maxScore = max(maxScore, first+snd)
 	}
 
+	// once we get a new best score for district, save it
 	memo[district] = maxScore
 	return maxScore
 }
 
+// do we really need a comment? :-)
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -77,9 +83,12 @@ func max(a, b int) int {
 	return b
 }
 
+// get all possible splits of a district of given size,
+// either horizontally or vertically
 func getAllSplits(w int, h int) []Split {
 	splits := make([]Split, 0)
 
+	// split horizontally
 	for i := 0; i < h-1; i++ {
 		splits = append(splits, Split{
 			first:  District{w, i + 1},
@@ -87,6 +96,7 @@ func getAllSplits(w int, h int) []Split {
 		})
 	}
 
+	// split vertically
 	for j := 0; j < w-1; j++ {
 		splits = append(splits, Split{
 			first:  District{j + 1, h},
