@@ -53,7 +53,7 @@ func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, mem
 		return memo[district]
 	}
 
-	maxScore := computeDistrictsScore(district, votersByDimension)
+	maxScore := votersByDimension[district.height-1][district.width-1]
 	splits := getAllWaysToSplit(district.width, district.height)
 	for iSplit := 0; iSplit < len(splits); iSplit++ {
 		fstScore := memoizedFindMaxSplitScore(splits[iSplit].firstDistrict, votersByDimension, memo)
@@ -106,8 +106,4 @@ func getAllWaysToSplit(w int, h int) []Split {
 	}
 
 	return splits
-}
-
-func computeDistrictsScore(district District, votersByDimension [][]int) int {
-	return votersByDimension[district.height-1][district.width-1]
 }
