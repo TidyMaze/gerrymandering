@@ -2,9 +2,9 @@ package main
 
 import "testing"
 
-func TestAllPossibleSplits(t *testing.T) {
-	oneMeasure()
-}
+// func TestAllPossibleSplits(t *testing.T) {
+// 	oneMeasure()
+// }
 
 func BenchmarkOneMeasure(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -13,8 +13,8 @@ func BenchmarkOneMeasure(b *testing.B) {
 }
 
 func oneMeasure() {
-	width := 300
-	height := 300
+	width := 50
+	height := 50
 
 	initialDistrict := makeDistrict(width, height)
 
@@ -28,7 +28,5 @@ func oneMeasure() {
 	}
 
 	cache := make(map[District]int)
-	best := memoizedFindMaxSplitScore(initialDistrict, votersByDimension, cache)
-
-	debug("best:", best)
+	memoizedFindMaxSplitScore(initialDistrict, votersByDimension, cache)
 }
