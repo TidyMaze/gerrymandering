@@ -14,7 +14,8 @@ type District struct {
 }
 
 type Split struct {
-	districts []District
+	firstDistrict  District
+	secondDistrict District
 }
 
 // debug any value to stderr
@@ -46,10 +47,10 @@ func main() {
 		}
 	}
 
-	fmt.Println(memoizedFindMaxSplitScore(makeDistrict(w, h), 0, votersByDimension, make(map[District]int)))
+	fmt.Println(memoizedFindMaxSplitScore(makeDistrict(w, h), votersByDimension, make(map[District]int)))
 }
 
-func memoizedFindMaxSplitScore(district District, depth int, votersByDimension [][]int, memo map[District]int) int {
+func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, memo map[District]int) int {
 	if memo[district] != 0 {
 		debug("memoizedFindMaxSplitScore:", district, "=", memo[district])
 		return memo[district]
@@ -59,8 +60,8 @@ func memoizedFindMaxSplitScore(district District, depth int, votersByDimension [
 	splits := make([]Split, 0)
 	getAllWaysToSplit(district.width, district.height, &splits)
 	for iSplit := 0; iSplit < len(splits); iSplit++ {
-		fstScore := memoizedFindMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension, memo)
-		sndScore := memoizedFindMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension, memo)
+		fstScore := memoizedFindMaxSplitScore(splits[iSplit].firstDistrict, votersByDimension, memo)
+		sndScore := memoizedFindMaxSplitScore(splits[iSplit].secondDistrict, votersByDimension, memo)
 		splitScore := fstScore + sndScore
 
 		if splitScore > maxScore {
@@ -95,19 +96,15 @@ func getAllWaysToSplit(w int, h int, splits *[]Split) {
 
 	for i := 0; i < h-1; i++ {
 		*splits = append(*splits, Split{
-			districts: []District{
-				makeDistrict(w, i+1),
-				makeDistrict(w, h-i-1),
-			},
+			firstDistrict:  makeDistrict(w, i+1),
+			secondDistrict: makeDistrict(w, h-i-1),
 		})
 	}
 
 	for j := 0; j < w-1; j++ {
 		*splits = append(*splits, Split{
-			districts: []District{
-				makeDistrict(j+1, h),
-				makeDistrict(w-j-1, h),
-			},
+			firstDistrict:  makeDistrict(j+1, h),
+			secondDistrict: makeDistrict(w-j-1, h),
 		})
 	}
 }

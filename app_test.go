@@ -19,7 +19,7 @@ func TestAllPossibleSplits(t *testing.T) {
 	}
 
 	cache := make(map[District]int)
-	best := memoizedFindMaxSplitScore(initialDistrict, 0, votersByDimension, cache)
+	best := memoizedFindMaxSplitScore(initialDistrict, votersByDimension, cache)
 
 	debug("best:", best)
 }
