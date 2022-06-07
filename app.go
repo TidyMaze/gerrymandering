@@ -45,10 +45,10 @@ func main() {
 		}
 	}
 
-	fmt.Println(memoizedFindMaxSplitScore(makeDistrict(w, h), votersByDimension, make(map[District]int)))
+	fmt.Println(search(makeDistrict(w, h), votersByDimension, make(map[District]int)))
 }
 
-func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, memo map[District]int) int {
+func search(district District, votersByDimension [][]int, memo map[District]int) int {
 	if memo[district] != 0 {
 		return memo[district]
 	}
@@ -56,8 +56,8 @@ func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, mem
 	maxScore := votersByDimension[district.height-1][district.width-1]
 	splits := getAllWaysToSplit(district.width, district.height)
 	for iSplit := 0; iSplit < len(splits); iSplit++ {
-		fstScore := memoizedFindMaxSplitScore(splits[iSplit].firstDistrict, votersByDimension, memo)
-		sndScore := memoizedFindMaxSplitScore(splits[iSplit].secondDistrict, votersByDimension, memo)
+		fstScore := search(splits[iSplit].firstDistrict, votersByDimension, memo)
+		sndScore := search(splits[iSplit].secondDistrict, votersByDimension, memo)
 		splitScore := fstScore + sndScore
 
 		if splitScore > maxScore {

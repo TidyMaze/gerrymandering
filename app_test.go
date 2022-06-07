@@ -28,5 +28,5 @@ func oneMeasure() {
 	}
 
 	cache := make(map[District]int)
-	memoizedFindMaxSplitScore(initialDistrict, votersByDimension, cache)
+	search(initialDistrict, votersByDimension, cache)
 }
