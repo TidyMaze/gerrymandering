@@ -46,35 +46,7 @@ func main() {
 		}
 	}
 
-	// debug("votersByDimension:", votersByDimension)
-
-	max := findMaxDistrictScore(w, h, votersByDimension)
-
-	// fmt.Fprintln(os.Stderr, "Debug messages...")
-	fmt.Println(max) // Write answer to stdout
-}
-
-func getVotersByDimension(votersByDimension [][]int, w int, h int) int {
-	return votersByDimension[h-1][w-1]
-}
-
-func findMaxSplitScore(district District, depth int, votersByDimension [][]int) int {
-	// debug("depth:", depth, "districts:", district)
-	maxScore := computeDistrictsScore([]District{district}, votersByDimension)
-	splits := make([]Split, 0)
-	getAllWaysToSplit(district.width, district.height, &splits)
-	for iSplit := 0; iSplit < len(splits); iSplit++ {
-		firstDistrictMaxScore := findMaxSplitScore(splits[iSplit].districts[0], depth+1, votersByDimension)
-		secondDistrictMaxScore := findMaxSplitScore(splits[iSplit].districts[1], depth+1, votersByDimension)
-		splitScore := firstDistrictMaxScore + secondDistrictMaxScore
-
-		if splitScore > maxScore {
-			maxScore = splitScore
-			// debug("Found new max score:", maxScore, "for split:", splits[iSplit])
-		}
-	}
-
-	return maxScore
+	fmt.Println(memoizedFindMaxSplitScore(makeDistrict(w, h), 0, votersByDimension, make(map[District]int)))
 }
 
 func memoizedFindMaxSplitScore(district District, depth int, votersByDimension [][]int, memo map[District]int) int {
@@ -157,16 +129,8 @@ func districtsSize(districts []District) int {
 
 func computeDistrictsScore(districts []District, votersByDimension [][]int) int {
 	score := 0
-
 	for iDistrict := 0; iDistrict < len(districts); iDistrict++ {
-		voters := getVotersByDimension(votersByDimension, districts[iDistrict].width, districts[iDistrict].height)
-		// debug("voters:", voters, "for district:", district)
-		score += voters
+		score += votersByDimension[districts[iDistrict].height-1][districts[iDistrict].width-1]
 	}
 	return score
-}
-
-func findMaxDistrictScore(w int, h int, votersByDimension [][]int) int {
-	cache := make(map[District]int)
-	return memoizedFindMaxSplitScore(makeDistrict(w, h), 0, votersByDimension, cache)
 }
