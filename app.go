@@ -54,6 +54,7 @@ func search(district District, voters [][]int) int {
 }
 
 func searchMemo(district District, voters [][]int, memo map[District]int) int {
+	// shortcut if already calculated
 	if memo[district] != 0 {
 		return memo[district]
 	}
