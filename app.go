@@ -54,11 +54,10 @@ func search(district District, votersByDimension [][]int, memo map[District]int)
 	}
 
 	maxScore := votersByDimension[district.height-1][district.width-1]
-	splits := getAllWaysToSplit(district.width, district.height)
-	for split := 0; split < len(splits); split++ {
-		maxScore = max(maxScore,
-			search(splits[split].firstDistrict, votersByDimension, memo)+
-				search(splits[split].secondDistrict, votersByDimension, memo))
+	for _, s := range getAllWaysToSplit(district.width, district.height) {
+		first := search(s.firstDistrict, votersByDimension, memo)
+		snd := search(s.secondDistrict, votersByDimension, memo)
+		maxScore = max(maxScore, first+snd)
 	}
 
 	memo[district] = maxScore
