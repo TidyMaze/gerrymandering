@@ -67,7 +67,7 @@ func memoizedFindMaxSplitScore(district District, votersByDimension [][]int, mem
 		}
 	}
 
-	debug("memoizedFindMaxSplitScore:", district, maxScore)
+	// debug("memoizedFindMaxSplitScore:", district, maxScore)
 	memo[district] = maxScore
 	return maxScore
 }
